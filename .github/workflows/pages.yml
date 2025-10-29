@@ -1,3 +1,22 @@
+name: Deploy Vite app to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  VITE_OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,13 +40,9 @@ jobs:
           else
             echo "✅ VITE_OMDB_API_KEY is present"
           fi
-        env:
-          VITE_OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
 
       - name: Build the Vite app
         run: npm run build
-        env:
-          VITE_OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
 
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
@@ -43,6 +58,7 @@ jobs:
     steps:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
