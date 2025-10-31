@@ -371,6 +371,10 @@ a:hover {
   opacity: 1;
 }
 
+.logo-box .logo-img:is(.is-active, :first-child) {
+  opacity: 1;
+}
+
 /* =========================================================
    SAFETY NET: Defensive reset for persistent outline/border bug
    ---------------------------------------------------------
